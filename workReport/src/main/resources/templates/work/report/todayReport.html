@@ -1,0 +1,67 @@
+<! DOCTYPE html>
+<html xmlns:th ="http://www.thymeleaf.org">
+<head>
+	<meta charset ="UTF-8"></meta>
+	<!-- Bootstrap の 設定 -->
+	<link th:href ="@{/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css}" rel="stylesheet"></link>
+	<script th:src ="@{/webjars/jquery/1.11.1/jquery.min.js}"></script>
+	<script th:src ="@{/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js}"></script>
+	<title> SignUp </title>
+</head>
+<body>
+	<div class ="col-sm-5">
+		<div class ="page-header">
+			<h1>[[__${user.userName}__]] [[__${today}__]]の勤務報告入力 </h1>
+		</div>
+    	<form method ="post" th:action ="@{/todayReport}" th:object="${workReport}">
+			<table class ="table table-bordered table-hover">
+			<!-- 勤務種別 の 入力 エリア -->
+				<tr>
+					<th class ="active"> 勤務種別 </th>
+					<td>
+						<div class ="form-group" th:classappend="${#fields.hasErrors('workStyle')} ? 'has-error'">
+							<!-- プルダウン の 実装 -->
+								<select class="form-control" id="workStyle" name="workStyle">
+									<option value="">---</option>
+									<option th:each="item:${pulldownWorkStyle}" th:value="${item.key}" th:text="${item.value}" th:selected="${item.key} == *{workStyleId}">勤務種別</option>
+								</select>
+								<span class="text-danger" th:if="${#fields.hasErrors('workStyle')}" th:errors="*{workStyle}">workStyle error</span>
+						</div>
+					</td>
+				</tr>
+				<!-- 開始時刻 の 入力 エリア -->
+				<tr>
+					<th class ="active"> パスワード </th>
+					<td>
+						<div class ="form-group" th:classappend="${#fields.hasErrors('workStartTime')} ? 'has-error'">
+							<input type ="text" class ="form-control" placeholder ="hh:mm" th:field="*{workStartTime}" />
+							<span class="text-danger" th:if="${#fields.hasErrors('workStartTime')}" th:errors="*{workStartTime}">workStartTime error</span>
+						</div>
+					</td>
+				</tr>
+				<!-- 終了時刻 の 入力 エリア -->
+				<tr>
+					<th class ="active"> ユーザー 名 </th>
+					<td>
+						<div class ="form-group" th:classappend="${#fields.hasErrors('workEndTime')} ? 'has-error'">
+							<input type ="text" class ="form-control" placeholder ="hh:mm" th:field="*{workEndTime}" />
+							<span class="text-danger" th:if="${#fields.hasErrors('workEndTime')}" th:errors="*{workEndTime}">workEndTime error</span>
+						</div>
+					</td>
+				</tr>
+				<!-- 誕生日 の 入力 エリア -->
+			</table>
+			<ul>
+				<li th:each="error:${#fields.detailedErrors()}">
+					<span th:text="${error.message}">Error message</span>
+				</li>
+			</ul>
+
+		<!-- 勤務報告登録 -->
+		<button class ="btn btn-primary" type ="submit">
+		  登録
+		</button>
+		</form>
+	</div>
+</body>
+</html>

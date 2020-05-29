@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.work.report.domain.repository.mybatis.UserMapper">
+<!-- <mapper>  -->
+    <!-- マッピング定義 -->
+    <resultMap type="com.example.demo.work.report.domain.model.User" id="user">
+        <id column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="password" property="password" />
+        <result column="role" property="role" />
+    </resultMap>
+    <resultMap type="com.example.demo.work.report.domain.model.WorkReport" id="workReport">
+    	<id column="user_id" property="userId" />
+    	<id column="work_day" property="workDay" />
+    	<result column="work_style_id" property="workStyleId" />
+    	<result column="work_start_time" property="workStartTime" />
+    	<result column="work_end_time" property="workEndTime" />
+    </resultMap>
+    <resultMap type="com.example.demo.work.report.domain.model.WorkStyle" id="workStyle">
+    	<id column="work_style_id" property="workStyleId" />
+    	<result column="work_style_name" property="workStyleName" />
+    	<result column="work_start_time" property="workStartTime" />
+    	<result column="work_end_time" property="workEndTime" />
+    	<result column="bread_time" property="breakTime" />
+    </resultMap>
+
+    <!-- ユーザー情報の1件検索 -->
+    <select id="userSelectOne" parameterType="string" resultMap="user">
+        SELECT
+			*
+        FROM
+            user
+        WHERE
+            user_id = #{userId}
+    </select>
+
+    <!-- 勤務情報取得 -->
+    <select id="workReportSelect" resultMap="workReport">
+        SELECT
+			*
+        FROM
+            work_report
+        WHERE
+        	user_id = #{userId}
+    </select>
+
+    <!-- 勤務形態取得 -->
+    <select id="workStyleSelect" resultMap="workStyle">
+        SELECT
+			*
+        FROM
+            work_style
+    </select>
+
+</mapper>
